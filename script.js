@@ -122,6 +122,26 @@ button1.onclick = goStore;
 button2.onclick = goCave;
 button3.onclick = fightDragon;
 
+window.addEventListener("load", () => {
+  const imageUrls = locations.map(loc => loc.image);
+  let loadedImages = 0;
+
+  imageUrls.forEach(src => {
+    const img = new Image();
+    img.src = src;
+    img.onload = checkAllImagesLoaded;
+    img.onerror = checkAllImagesLoaded; // still proceed if an image fails
+  });
+
+  function checkAllImagesLoaded() {
+    loadedImages++;
+    if (loadedImages === imageUrls.length) {
+      document.getElementById("preloader").style.display = "none";
+      goHome(); // Start the game after preloading
+    }
+  }
+});
+
 function update(location) {
   monsterStats.style.display = "none";
   button1.innerText = location["button text"][0];
